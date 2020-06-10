@@ -1,0 +1,130 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+<title layout:fragment="title">News</title>
+<div layout:fragment = "contentPart">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <br>
+
+
+    <script>
+        function age_filter1() {
+            var filter, table, tr, td, i, txtValue;
+            var min = document.getElementById("min");
+            var max = document.getElementById("max");
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("h4")[0];
+                td=parseInt(td);
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (( isNaN( min ) && isNaN( max )) ||
+                        ( isNaN( min ) && td <= max ) ||
+                        ( min <= td   && isNaN( max )) ||
+                        ( min <= td   && td <= max )) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        function search_city() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("div");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("h4")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        function search_name() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput1");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("div");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("h3")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="input-group col-md-3 col-sm-6" >
+                <input type="range" min="18" max="30" id="myInput2">
+                <label for="myInput2" th:text="#{label.age}"></label>
+            </div>
+
+            <div class="input-group input-group-lg col-md-3 col-sm-6" style="width: 260px;">
+                <div class="input-group-prepend" >
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" class="form-control" id="myInput1" aria-label="Username"  aria-describedby="basic-addon2" onkeyup="search_name()" th:placeholder="#{label.search_name}">
+            </div>
+            <br>
+            <div class="input-group input-group-lg col-md-3 col-sm-6" style="width: 260px;">
+                <div class="input-group-prepend" >
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" class="form-control" id="myInput" aria-label="Username"  aria-describedby="basic-addon1" onkeyup="search_city()" th:placeholder="#{label.search_city}">
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="hover-table-layout" id="myTable">
+            <div class="listing-item col-md-2 col-sm-6" th:each="u : ${allUsers}" style="width: 50px; margin-left: 5px">
+                <figure class="image">
+                    <a th:href="@{'users/'+${u.email}}">
+                        <img th:src="${u.avatar}">
+                    </a>
+                </figure>
+                <div class="listing">
+                    <h3 th:text="${u.name + ' ' + u.surname}"></h3>
+                    <h4 th:text="${u.birthday}" ></h4>
+                    <h4 th:text="${u.city}"></h4>
+                    <h4 th:text="${u.tel_number}"></h4>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!--CONTENT DIV-->
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/mainstyle.css">
+
+    <nav class="menu">
+        <ul class="menu__list" sec:authorize = "isAnonymous()">
+            <li class="menu__group" ><a th:href="@{/}" class="menu__link"><span style="font-size: 13pt"  th:text = "#{label.home}"></span></a></li>
+            <li class="menu__group"><a th:href="@{'/auth_reg'}" class="menu__link"  th:text = "#{label.reglog}"></a></li>
+        </ul>
+
+        <ul class="menu__list" sec:authorize = "isAuthenticated()">
+            <li class="menu__group" ><a th:href="@{/}" class="menu__link"><span style="font-size: 13pt">Home</span></a></li>
+            <li class="menu__group" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="menu__link" th:href="@{'/profile_admin'}" >Admin page</a>
+            </li>
+            <li class="menu__group" sec:authorize="hasRole('ROLE_MODERATOR')">
+                <a class="menu__link" th:href="@{'/profile_moderator'}">Moderator page</a>
+            </li>
+
+            <li class="menu__group" sec:authorize="isAuthenticated()">
+                <a class="menu__link" th:href = "@{'/profile'}">Profile page</a>
+
+            </li>
+
+
+            <form th:action = "@{'/exit'}" id = "logoutForm1">
+            </form>
+            <li class="menu__list">
+                <a class="menu__link" href="JavaScript:void(0)" onclick="logout1()">Logout</a>
+            </li>
+            <script type="text/javascript">
+                function logout1(){
+                    document.getElementById("logoutForm1").submit();
+                }
+            </script>
+
+        </ul>
+        </ul>
+
+    </nav>
+
+
+    <div class="container my-4">
+        <hr>
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color">
+            <a class="navbar-brand"  th:href="@{/}">DISTEN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-3" aria-controls="navbarSupportedContent-3" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link waves-effect waves-light"  th:href="@{/}" th:text = "#{label.home}">
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul sec:authorize = "isAnonymous()" class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link waves-effect waves-light"  th:href="@{'/auth_reg'}" th:text = "#{label.reglog}">
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link waves-effect waves-light"  th:href="@{'/profile_moderator'}" th:text = "#{label.admin_panel}">
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active" sec:authorize="hasRole('ROLE_MODERATOR')">
+                        <a class="nav-link waves-effect waves-light"  th:href="@{'/profile_moderator'}" th:text = "#{label.admin_panel}">
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav mr-auto">
+                    <li sec:authorize="isAuthenticated()" class="nav-item active">
+                        <a class="nav-link waves-effect waves-light"  th:href="@{'/profile'}" th:text = "#{label.profile}">
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-auto nav-flex-icons">
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light">
+                            <i class="fab fa-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                            <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                            <a href="JavaScript:void(0)" onclick="logout()" th:text = "#{label.logout}"></a>
+                            <form th:action = "@{'/exit'}" id = "logoutForm">
+                            </form>
+                            <a class="menu__link" href="JavaScript:void(0)" onclick="logout()">Logout</a>
+
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <script type="text/javascript">
+            function logout(){
+                document.getElementById("logoutForm").submit();
+            }
+        </script>
+        <hr>
+
+        <section id="full-list">
+
+            <!--Title-->
+            <h2 class="section-heading mb-4">
+                Full list
+            </h2>
+
+            <!--Description-->
+            <p class="description">To see the full list of available icons click the button below</p>
+
+            <a href="https://mdbootstrap.com/docs/jquery/content/icons-list/" class="btn btn-primary btn-lg waves-effect waves-light"><i class="fas fa-list mr-2"></i>
+                Icons list</a>
+
+
+        </section>
+
+    </div>
+
+
+
+
+
+</head>
+<body >
+
+
+<div class="nav-item dropdown" style="margin-right: 0px; width: 100px">
+    <a class="nav-link dropdown-toggle" th:href="@{'?lang=en'}" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Language</span></a>
+    <div class="dropdown-menu" aria-labelledby="dropdown09">
+        <a class="dropdown-item" th:href="@{'?lang=ru'}"><span class="flag-icon flag-icon-ru"> </span>  Russian</a>
+        <a class="dropdown-item" th:href="@{'?lang=en'}"><span class="flag-icon flag-icon-us"> </span>  English</a>
+
+    </div>
+</div>
+
+<title layout:fragment="title">Main</title>
+
+
+
+<div class=" pt-5" layout:fragment = "contentPart" style="min-height: 800px;">
+</div>
+
+
+<footer>
+    <div class="footer-container">
+        <div class="left-col">
+            <img src="blacklogo.png" alt="" class="logo">
+
+            <p class="rights-text">© 2020 Created By Rakhatali All Rights Reserved.</p>
+        </div>
+
+        <div class="center-col">
+            <h1  class="rights-text">Contacts</h1>
+            <div class="linee"></div>
+            <p class="rights-text"> +7(777)977-67-89</p>
+
+
+        </div>
+        <div class="right-col">
+            <h1 >Our Newsletter</h1>
+            <div class="linee"></div>
+            <p class="rights-text">Enter Your Email to get our news and updates.</p>
+            <form action="" class="newsletter-form">
+                <input type="text" class="txtb" placeholder="Enter Your Email">
+                <input type="submit" class="btn" value="submit">
+            </form>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+
+
+
+
+</html>
+

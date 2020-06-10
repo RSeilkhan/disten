@@ -1,0 +1,126 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main.html">
+<title layout:fragment="title">Authorization/Registration</title>
+
+<div layout:fragment = "contentPart">
+
+    <div class="row mt-5 register center">
+        <div class="col-4">
+            <br>
+            <h4 align="center" th:text = "#{label.login}"></h4>
+            <form action="/signin" method="post" name="frm" style="font-size:15px;">
+                <input type="hidden" name="act" value="author">
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="text" name="email" class="form-control input-lg"  th:placeholder="#{label.email}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input type="password" name="password" class="form-control input-lg"  th:placeholder="#{label.password}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary float-right " th:text = "#{label.login}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-4 offset-3">
+            <br>
+            <h4 align="center" th:text = "#{label.reg}"></h4>
+            <form action="/register" method="post" name="frm" style="font-size:15px;">
+                <input type="hidden" name="act" value="register">
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="text" name="email" onclick="return IsEmpty();" class="form-control input-lg" id="inputEmail3" th:placeholder="#{label.email}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input type="password" name="password" class="form-control input-lg" id="inputPassword3" th:placeholder="#{label.password}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="text" name="name" class="form-control input-lg" th:placeholder="#{label.name}">
+                    </div>
+                </div>
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="text" name="surName" class="form-control input-lg" th:placeholder="#{label.surname}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <select name="gender" class="form-control input-lg" >
+                            <option value="male" selected>Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="text" name="tel_number" class="form-control input-lg" th:placeholder="#{label.tel_number}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="number" name="birthday" class="form-control input-lg" th:placeholder="#{label.age}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                        <input type="text" name="about" class="form-control input-lg" th:placeholder="#{label.something_about}">
+                    </div>
+                </div>
+
+                <div class="form-group row mt-3" >
+                    <div class="col-sm-10">
+                      <textarea type="text" name="avatar" class="form-control input-lg" th:placeholder="#{label.image_url}"></textarea> <!--  как перевести placeholder-->
+                    </div>
+                </div>
+                <div class="form-group row mt-3" >
+                <select name="city" class="custom-select mr-sm-2 input-lg" id="inlineFormCustomSelect2" style="width:72%; margin-left:15px;">
+                    <option disabled th:text="#{label.select_city}">Select the city</option>
+                    <option value="Almaty" selected>Almaty</option>
+                    <option value="Nur-Sultan">Nur-Sultan</option>
+                    <option value="Aktau">Aktau</option>
+                    <option value="Shymkent">Shymkent</option>
+                    <option value="Taraz">Taraz</option>
+                    <option value="Karagandy">Karagandy</option>
+                </select>
+                </div>
+
+                <script language="Javascript">
+                    function IsEmpty() {
+                        if (document.forms['frm'].email.value === "") {
+                            alert("empty email");
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary float-right" th:text = "#{label.reg}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <br><br><br><br><br><br><br>
+
+</div>
+
+</html>
